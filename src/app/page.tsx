@@ -17,7 +17,7 @@ export interface ExpenseItem {
   amount: number;
   payment: string;
   memo: string;
-  source: 'voice';
+  source: 'voice' | 'receipt';
 }
 
 export default function Home() {
