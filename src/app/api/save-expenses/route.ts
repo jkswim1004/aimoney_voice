@@ -31,16 +31,16 @@ export async function POST(request: NextRequest) {
 
     // 데이터 타입 변환
     const expenseData: ExpenseData[] = expenses.map((expense: Record<string, unknown>) => ({
-      date: expense.date || new Date().toISOString().split('T')[0],
-      store: expense.store || '기타',
-      category: expense.category || '기타',
-      item: expense.item || '미분류',
+      date: (expense.date as string) || new Date().toISOString().split('T')[0],
+      store: (expense.store as string) || '기타',
+      category: (expense.category as string) || '기타',
+      item: (expense.item as string) || '미분류',
       unitPrice: Number(expense.unitPrice) || 0,
       quantity: Number(expense.quantity) || 1,
       amount: Number(expense.amount) || 0,
-      payment: expense.payment || '현금',
-      memo: expense.memo || '',
-      source: expense.source || 'voice'
+      payment: (expense.payment as string) || '현금',
+      memo: (expense.memo as string) || '',
+      source: (expense.source as 'voice' | 'receipt') || 'voice'
     }));
 
     // 구글 시트에 저장
