@@ -14,6 +14,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [transcript, setTranscript] = useState('');
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const recognitionRef = useRef<any>(null);
 
 
   const startRecording = async () => {
@@ -41,8 +42,20 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current = null;
     }
+    
+    // 음성 인식 강제 중지 (모바일 문제 해결)
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+        recognitionRef.current.abort();
+      } catch (error) {
+        console.log('Recognition stop error:', error);
+      }
+      recognitionRef.current = null;
+    }
+    
     setIsRecording(false);
-    setIsProcessing(true);
+    setIsProcessing(false); // 처리 상태도 즉시 해제
   };
 
   const processAudio = async () => {
@@ -59,6 +72,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
         throw new Error('Speech recognition not supported');
       }
       const recognition = new SpeechRecognition();
+      recognitionRef.current = recognition;
       
       // 음성 인식 설정 최적화 (안정성 우선)
       recognition.lang = 'ko-KR';

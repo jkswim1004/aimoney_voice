@@ -17,8 +17,14 @@ export const metadata: Metadata = {
   description: "음성 인식으로 간편하게 가계부를 작성하고 구글시트에 자동 저장하는 스마트 가계부 앱",
   keywords: "가계부, 음성인식, 구글시트, AI, 자동화, 가계부앱, 음성가계부",
   authors: [{ name: "AIMoney Team" }],
-  viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
