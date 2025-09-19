@@ -14,7 +14,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [transcript, setTranscript] = useState('');
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
 
 
   const startRecording = async () => {
