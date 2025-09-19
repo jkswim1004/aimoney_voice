@@ -14,7 +14,6 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [transcript, setTranscript] = useState('');
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const chunksRef = useRef<Blob[]>([]);
 
 
   const startRecording = async () => {
@@ -22,14 +21,14 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
       // 마이크 권한 먼저 확인
       try {
         await navigator.mediaDevices.getUserMedia({ audio: true });
-      } catch (micError) {
+      } catch {
         alert('마이크 권한이 필요합니다. 브라우저에서 마이크 접근을 허용해주세요.');
         return;
       }
 
       // Web Speech API는 별도의 녹음 없이 바로 음성 인식 시작
       setIsRecording(true);
-      await processAudio(new Blob()); // 빈 Blob 전달 (실제로는 사용하지 않음)
+      await processAudio();
     } catch (error) {
       console.error('Error starting speech recognition:', error);
       alert('음성 인식을 시작할 수 없습니다.');
@@ -46,7 +45,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
     setIsProcessing(true);
   };
 
-  const processAudio = async (audioBlob: Blob) => {
+  const processAudio = async () => {
     setIsProcessing(true);
     
     try {
@@ -55,6 +54,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
         throw new Error('Speech recognition not supported');
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
       const recognition = new SpeechRecognition();
       
@@ -73,7 +73,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
         alert('음성 인식 시간이 초과되었습니다. 다시 시도해주세요.');
       }, 30000);
 
-      recognition.onresult = (event: any) => {
+      recognition.onresult = (event: SpeechRecognitionEvent) => {
         clearTimeout(timeoutId);
         console.log('Speech recognition result:', event);
         
@@ -120,7 +120,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
         }
       };
 
-      recognition.onerror = (event: any) => {
+      recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
         clearTimeout(timeoutId);
         console.error('Speech recognition error:', event.error);
         setIsProcessing(false);
@@ -309,7 +309,6 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
 
         // 카테고리 자동 분류 (더 정확하고 포괄적)
         let category = '기타';
-        const itemLower = item.toLowerCase();
         
         // 카테고리 분류 규칙 (우선순위 순)
         const categoryRules = [
@@ -418,9 +417,9 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
               <div className="text-xs text-gray-500 bg-gray-50 rounded-lg p-3 mb-4">
                 <p className="font-medium mb-2">💡 음성 입력 예시:</p>
                 <ul className="space-y-1">
-                  <li>• "스타벅스에서 아메리카노 4500원 카드로 결제"</li>
-                  <li>• "편의점에서 라면 1200원, 음료수 1500원 현금"</li>
-                  <li>• "마트에서 장보기 3만원 체크카드로 결제"</li>
+                  <li>• &quot;스타벅스에서 아메리카노 4500원 카드로 결제&quot;</li>
+                  <li>• &quot;편의점에서 라면 1200원, 음료수 1500원 현금&quot;</li>
+                  <li>• &quot;마트에서 장보기 3만원 체크카드로 결제&quot;</li>
                 </ul>
               </div>
               <div className="space-y-3">

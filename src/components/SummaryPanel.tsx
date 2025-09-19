@@ -170,9 +170,9 @@ export default function SummaryPanel({ expenses, totalAmount }: SummaryPanelProp
       <div className="glass-card rounded-2xl p-6 border-l-4 border-blue-500">
         <h3 className="text-lg font-semibold text-gray-800 mb-2">💡 사용 팁</h3>
         <ul className="text-sm text-gray-600 space-y-1">
-          <li>• "스타벅스에서 아메리카노 4500원 카드로 결제"</li>
-          <li>• "편의점에서 라면 1200원, 음료수 1500원 현금"</li>
-          <li>• "마트에서 장보기 3만원 체크카드로 결제"</li>
+          <li>• &quot;스타벅스에서 아메리카노 4500원 카드로 결제&quot;</li>
+          <li>• &quot;편의점에서 라면 1200원, 음료수 1500원 현금&quot;</li>
+          <li>• &quot;마트에서 장보기 3만원 체크카드로 결제&quot;</li>
           <li>• 잘못된 내용은 표에서 직접 수정 가능합니다</li>
         </ul>
       </div>

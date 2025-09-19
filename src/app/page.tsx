@@ -130,15 +130,15 @@ export default function Home() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
                   <div className="bg-white rounded-lg p-4 shadow-sm">
                     <div className="text-sm text-blue-600 font-medium mb-2">☕ 카페</div>
-                    <div className="text-gray-800">"스타벅스에서 아메리카노 4500원 카드로 결제"</div>
+                    <div className="text-gray-800">&quot;스타벅스에서 아메리카노 4500원 카드로 결제&quot;</div>
                   </div>
                   <div className="bg-white rounded-lg p-4 shadow-sm">
                     <div className="text-sm text-green-600 font-medium mb-2">🏪 편의점</div>
-                    <div className="text-gray-800">"편의점에서 라면 1200원, 음료수 1500원 현금"</div>
+                    <div className="text-gray-800">&quot;편의점에서 라면 1200원, 음료수 1500원 현금&quot;</div>
                   </div>
                   <div className="bg-white rounded-lg p-4 shadow-sm">
                     <div className="text-sm text-purple-600 font-medium mb-2">🛒 마트</div>
-                    <div className="text-gray-800">"마트에서 장보기 3만원 체크카드로 결제"</div>
+                    <div className="text-gray-800">&quot;마트에서 장보기 3만원 체크카드로 결제&quot;</div>
                   </div>
                 </div>
               </div>

@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 데이터 타입 변환
-    const expenseData: ExpenseData[] = expenses.map((expense: any) => ({
+    const expenseData: ExpenseData[] = expenses.map((expense: Record<string, unknown>) => ({
       date: expense.date || new Date().toISOString().split('T')[0],
       store: expense.store || '기타',
       category: expense.category || '기타',
