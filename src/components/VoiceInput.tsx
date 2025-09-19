@@ -54,8 +54,10 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
         throw new Error('Speech recognition not supported');
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+      const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+      if (!SpeechRecognition) {
+        throw new Error('Speech recognition not supported');
+      }
       const recognition = new SpeechRecognition();
       
       // 음성 인식 설정 최적화 (안정성 우선)
