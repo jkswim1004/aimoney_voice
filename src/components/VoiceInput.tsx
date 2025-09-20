@@ -19,11 +19,22 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
 
   const startRecording = async () => {
     try {
+      // 모바일 디버깅 정보
+      const userAgent = navigator.userAgent;
+      const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+      console.log('Device info:', { userAgent, isMobile });
+      console.log('HTTPS:', window.location.protocol === 'https:');
+      console.log('Speech Recognition available:', 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window);
+
       // 마이크 권한 먼저 확인
       try {
-        await navigator.mediaDevices.getUserMedia({ audio: true });
-      } catch {
-        alert('마이크 권한이 필요합니다. 브라우저에서 마이크 접근을 허용해주세요.');
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        console.log('Microphone permission granted');
+        // 스트림 즉시 정리
+        stream.getTracks().forEach(track => track.stop());
+      } catch (micError) {
+        console.error('Microphone permission error:', micError);
+        alert(`마이크 권한이 필요합니다.\n\n오류: ${micError instanceof Error ? micError.message : ''} \n\n브라우저 설정에서 마이크 접근을 허용해주세요.`);
         return;
       }
 
@@ -32,7 +43,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
       await processAudio();
     } catch (error) {
       console.error('Error starting speech recognition:', error);
-      alert('음성 인식을 시작할 수 없습니다.');
+      alert(`음성 인식을 시작할 수 없습니다.\n\n오류: ${error instanceof Error ? error.message : ''} \n\n브라우저가 음성 인식을 지원하지 않을 수 있습니다.`);
       setIsRecording(false);
     }
   };
@@ -151,9 +162,15 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
         
         let errorMessage = '음성 인식 중 오류가 발생했습니다.';
         
+        // 모바일 디버깅 정보 추가
+        const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        console.log('Error occurred on mobile:', isMobile);
+        console.log('Current URL protocol:', window.location.protocol);
+        console.log('Browser:', navigator.userAgent);
+        
         switch (event.error) {
           case 'no-speech':
-            errorMessage = '음성이 감지되지 않았습니다. 다시 시도해주세요.';
+            errorMessage = `음성이 감지되지 않았습니다.\n\n📱 모바일 사용 팁:\n• 마이크에 가까이 대고 말씀하세요\n• 조용한 환경에서 시도하세요\n• 브라우저: ${navigator.userAgent.split(' ')[0]}`;
             // no-speech는 일반적인 상황이므로 자동으로 재시작 옵션 제공
             if (confirm(errorMessage + '\n\n다시 음성 인식을 시작하시겠습니까?')) {
               setTimeout(() => {
@@ -165,19 +182,22 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
             }
             break;
           case 'not-allowed':
-            errorMessage = '마이크 권한이 필요합니다. 브라우저 설정에서 마이크를 허용해주세요.';
+            errorMessage = `마이크 권한이 거부되었습니다.\n\n📱 모바일 해결 방법:\n• 브라우저 주소창의 🔒 아이콘 클릭\n• 마이크 권한을 "허용"으로 변경\n• 페이지 새로고침\n\n브라우저: ${navigator.userAgent.split(' ')[0]}`;
             break;
           case 'network':
-            errorMessage = '네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.';
+            errorMessage = '네트워크 오류가 발생했습니다.\n\n• 인터넷 연결 상태 확인\n• WiFi 또는 모바일 데이터 확인';
             break;
           case 'audio-capture':
-            errorMessage = '마이크에 접근할 수 없습니다. 다른 앱에서 마이크를 사용 중인지 확인해주세요.';
+            errorMessage = '마이크에 접근할 수 없습니다.\n\n해결 방법:\n• 다른 앱에서 마이크 사용 중인지 확인\n• 브라우저 재시작\n• 기기 재시작';
+            break;
+          case 'service-not-allowed':
+            errorMessage = `음성 인식 서비스를 사용할 수 없습니다.\n\n원인:\n• HTTPS 연결 필요 (현재: ${window.location.protocol})\n• 브라우저 호환성 문제\n• 서비스 제한`;
             break;
           case 'aborted':
             errorMessage = '음성 인식이 중단되었습니다.';
             break;
           default:
-            errorMessage = `음성 인식 오류 (${event.error}): 다시 시도해주세요.`;
+            errorMessage = `음성 인식 오류: ${event.error}\n\n디버그 정보:\n• 모바일: ${isMobile ? 'Yes' : 'No'}\n• 프로토콜: ${window.location.protocol}\n• 브라우저: ${navigator.userAgent.split(' ')[0]}`;
         }
         
         if (errorMessage) {
@@ -473,6 +493,10 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
                 <p>• Chrome 브라우저에서 최적화됨</p>
                 <p>• 조용한 환경에서 명확하게 말씀해주세요</p>
                 <p>• 마이크에 너무 가깝거나 멀지 않게 해주세요</p>
+                <p className="text-orange-600">📱 <strong>모바일 사용자:</strong></p>
+                <p>• 마이크 권한을 반드시 허용해주세요</p>
+                <p>• 다른 앱에서 마이크 사용 중이면 종료해주세요</p>
+                <p>• iOS Safari는 14.5+ 버전에서만 지원됩니다</p>
               </div>
             </div>
           )}
