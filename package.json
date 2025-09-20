@@ -1,8 +1,8 @@
 {
   "name": "aimoney-app",
   "version": "0.1.0",
-  "engines": { "node": "18.x" }, 
   "private": true,
+  "engines": { "node": "18.x" }, 
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
