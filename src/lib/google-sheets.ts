@@ -29,25 +29,17 @@ export function validateGoogleSheetsConfig() {
   return true;
 }
 
-// 구글 인증 객체 생성
+// 구글 인증 객체 생성 (JWT 방식으로 간소화)
 export function createGoogleAuth() {
   validateGoogleSheetsConfig();
 
-  const credentials = {
-    type: 'service_account',
-    project_id: process.env.GOOGLE_PROJECT_ID,
-    private_key_id: process.env.GOOGLE_PRIVATE_KEY_ID,
-    private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-    client_email: process.env.GOOGLE_CLIENT_EMAIL,
-    client_id: process.env.GOOGLE_CLIENT_ID,
-    auth_uri: 'https://accounts.google.com/o/oauth2/auth',
-    token_uri: 'https://oauth2.googleapis.com/token',
-    auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
-    client_x509_cert_url: `https://www.googleapis.com/robot/v1/metadata/x509/${process.env.GOOGLE_CLIENT_EMAIL}`,
-  };
+  // Private Key 줄바꿈 처리
+  const key = (process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n');
 
-  const auth = new google.auth.GoogleAuth({
-    credentials,
+  // JWT 인증 방식 사용 (더 간단하고 직접적)
+  const auth = new google.auth.JWT({
+    email: process.env.GOOGLE_CLIENT_EMAIL,
+    key,
     scopes: GOOGLE_SHEETS_SCOPES,
   });
 
