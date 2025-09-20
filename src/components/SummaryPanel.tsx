@@ -113,7 +113,7 @@ export default function SummaryPanel({ expenses, totalAmount }: SummaryPanelProp
                       style={{ width: `${percentage}%` }}
                     ></div>
                   </div>
-                  <p className="text-xs text-gray-500 text-right">
+                  <p className="text-xs text-gray-700 text-right">
                     {percentage.toFixed(1)}%
                   </p>
                 </div>

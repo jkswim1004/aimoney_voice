@@ -450,13 +450,16 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
         <div className="text-center">
           {!isRecording && !isProcessing && (
             <div className="space-y-4">
-              <div className="w-24 h-24 mx-auto bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center">
-                <Mic className="w-12 h-12 text-white" />
-              </div>
-              <p className="text-gray-600 mb-4">
-                버튼을 눌러 음성 입력을 시작하세요
+              <button
+                onClick={startRecording}
+                className="w-24 h-24 mx-auto bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center hover:scale-110 transform transition-all duration-300 shadow-lg hover:shadow-xl group"
+              >
+                <Mic className="w-12 h-12 text-white group-hover:animate-pulse" />
+              </button>
+              <p className="text-gray-800 font-medium mb-4">
+                마이크를 눌러 음성 입력을 시작하세요
               </p>
-              <div className="text-xs text-gray-500 bg-gray-50 rounded-lg p-3 mb-4">
+              <div className="text-xs text-gray-700 bg-white/70 rounded-lg p-3 mb-4 border border-gray-200">
                 <p className="font-medium mb-2">💡 음성 입력 예시:</p>
                 <ul className="space-y-1">
                   <li>• &quot;스타벅스에서 아메리카노 4500원 카드로 결제&quot;</li>
@@ -465,12 +468,6 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
                 </ul>
               </div>
               <div className="space-y-3">
-                <button
-                  onClick={startRecording}
-                  className="glass-button px-6 py-3 rounded-xl font-medium w-full"
-                >
-                  음성 인식 시작
-                </button>
                 <button
                   onClick={() => {
                     // 테스트용 모의 데이터
@@ -488,12 +485,12 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
                   테스트 데이터 (임시)
                 </button>
               </div>
-              <div className="text-xs text-gray-500 mt-4 space-y-1">
-                <p>💡 <strong>음성 인식 팁:</strong></p>
+              <div className="text-xs text-gray-700 mt-4 space-y-1 bg-white/50 rounded-lg p-3">
+                <p className="text-gray-800">💡 <strong>음성 인식 팁:</strong></p>
                 <p>• Chrome 브라우저에서 최적화됨</p>
                 <p>• 조용한 환경에서 명확하게 말씀해주세요</p>
                 <p>• 마이크에 너무 가깝거나 멀지 않게 해주세요</p>
-                <p className="text-orange-600">📱 <strong>모바일 사용자:</strong></p>
+                <p className="text-orange-700 font-medium">📱 <strong>모바일 사용자:</strong></p>
                 <p>• 마이크 권한을 반드시 허용해주세요</p>
                 <p>• 다른 앱에서 마이크 사용 중이면 종료해주세요</p>
                 <p>• iOS Safari는 14.5+ 버전에서만 지원됩니다</p>
@@ -509,7 +506,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
               <p className="text-red-600 font-medium">
                 🎤 녹음 중... 지출 내역을 명확하게 말씀해주세요
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-700 font-medium">
                 한 번에 완전한 문장으로 말씀해주세요. 말이 끝나면 자동으로 처리됩니다.
               </p>
               <div className="pt-4">

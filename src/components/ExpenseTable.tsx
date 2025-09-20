@@ -233,7 +233,7 @@ export default function ExpenseTable({ expenses, onUpdate }: ExpenseTableProps) 
         <div className="w-12 h-12 md:w-16 md:h-16 mx-auto bg-gray-200 rounded-full flex items-center justify-center mb-4">
           <Edit2 className="w-6 h-6 md:w-8 md:h-8 text-gray-400" />
         </div>
-        <p className="text-gray-500 text-base md:text-lg">아직 입력된 가계부 내역이 없습니다</p>
+        <p className="text-gray-700 text-base md:text-lg font-medium">아직 입력된 가계부 내역이 없습니다</p>
         <p className="text-gray-400 text-sm mt-2">음성 입력이나 영수증 촬영으로 시작해보세요</p>
       </div>
     );
@@ -249,20 +249,20 @@ export default function ExpenseTable({ expenses, onUpdate }: ExpenseTableProps) 
             <div className="space-y-3">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-gray-600 mb-1 block">날짜</label>
+                  <label className="text-sm text-gray-800 mb-2 block font-medium">날짜</label>
                   <input
                     type="date"
                     value={editingExpense?.date || ''}
                     onChange={(e) => setEditingExpense(prev => prev ? {...prev, date: e.target.value} : null)}
-                    className="glass-input w-full px-2 py-1 text-sm rounded"
+                    className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-gray-600 mb-1 block">카테고리</label>
+                  <label className="text-sm text-gray-800 mb-2 block font-medium">카테고리</label>
                   <select
                     value={editingExpense?.category || ''}
                     onChange={(e) => setEditingExpense(prev => prev ? {...prev, category: e.target.value} : null)}
-                    className="glass-input w-full px-2 py-1 text-sm rounded"
+                    className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                   >
                     {categories.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -273,11 +273,11 @@ export default function ExpenseTable({ expenses, onUpdate }: ExpenseTableProps) 
               
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-gray-600 mb-1 block">상점</label>
+                  <label className="text-sm text-gray-800 mb-2 block font-medium">상점</label>
                   <select
                     value={editingExpense?.store || ''}
                     onChange={(e) => setEditingExpense(prev => prev ? {...prev, store: e.target.value} : null)}
-                    className="glass-input w-full px-2 py-1 text-sm rounded"
+                    className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                   >
                     {stores.map(store => (
                       <option key={store} value={store}>{store}</option>
@@ -285,11 +285,11 @@ export default function ExpenseTable({ expenses, onUpdate }: ExpenseTableProps) 
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs text-gray-600 mb-1 block">결제수단</label>
+                  <label className="text-sm text-gray-800 mb-2 block font-medium">결제수단</label>
                   <select
                     value={editingExpense?.payment || ''}
                     onChange={(e) => setEditingExpense(prev => prev ? {...prev, payment: e.target.value} : null)}
-                    className="glass-input w-full px-2 py-1 text-sm rounded"
+                    className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                   >
                     {paymentMethods.map(method => (
                       <option key={method} value={method}>{method}</option>
@@ -299,43 +299,53 @@ export default function ExpenseTable({ expenses, onUpdate }: ExpenseTableProps) 
               </div>
 
               <div>
-                <label className="text-xs text-gray-600 mb-1 block">품목</label>
+                <label className="text-sm text-gray-800 mb-2 block font-medium">품목</label>
                 <input
                   key={`mobile-item-${editingExpense?.id}`}
                   ref={itemInputRef}
                   type="text"
                   defaultValue={editingExpense?.item || ''}
-                  className="glass-input w-full px-2 py-1 text-sm rounded"
+                  className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                   placeholder="품목을 입력하세요"
+                  inputMode="text"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck="false"
                 />
               </div>
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="text-xs text-gray-600 mb-1 block">단가</label>
+                  <label className="text-sm text-gray-800 mb-2 block font-medium">단가</label>
                   <input
                     key={`mobile-unitPrice-${editingExpense?.id}`}
                     ref={unitPriceInputRef}
                     type="number"
                     defaultValue={editingExpense?.unitPrice || 0}
-                    className="glass-input w-full px-2 py-1 text-sm rounded"
+                    className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                     placeholder="단가"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    autoComplete="off"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-gray-600 mb-1 block">수량</label>
+                  <label className="text-sm text-gray-800 mb-2 block font-medium">수량</label>
                   <input
                     key={`mobile-quantity-${editingExpense?.id}`}
                     ref={quantityInputRef}
                     type="number"
                     defaultValue={editingExpense?.quantity || 1}
-                    className="glass-input w-full px-2 py-1 text-sm rounded"
+                    className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                     placeholder="수량"
                     min="1"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    autoComplete="off"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-gray-600 mb-1 block">금액</label>
+                  <label className="text-sm text-gray-800 mb-2 block font-medium">금액</label>
                   <div className="px-2 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded">
                     {formatCurrency(editingExpense?.amount || 0)}원
                   </div>
@@ -343,28 +353,32 @@ export default function ExpenseTable({ expenses, onUpdate }: ExpenseTableProps) 
               </div>
 
               <div>
-                <label className="text-xs text-gray-600 mb-1 block">메모</label>
+                <label className="text-sm text-gray-800 mb-2 block font-medium">메모</label>
                 <input
                   key={`mobile-memo-${editingExpense?.id}`}
                   ref={memoInputRef}
                   type="text"
                   defaultValue={editingExpense?.memo || ''}
-                  className="glass-input w-full px-2 py-1 text-sm rounded"
+                  className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                   placeholder="메모를 입력하세요"
+                  inputMode="text"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck="false"
                 />
               </div>
 
               <div className="flex gap-2 pt-2">
                 <button
                   onClick={saveEdit}
-                  className="flex-1 bg-green-500 text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-1"
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-1 shadow-md"
                 >
                   <Check className="w-4 h-4" />
                   저장
                 </button>
                 <button
                   onClick={cancelEdit}
-                  className="flex-1 bg-gray-500 text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-1"
+                  className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-1 shadow-md"
                 >
                   <X className="w-4 h-4" />
                   취소
@@ -447,14 +461,14 @@ export default function ExpenseTable({ expenses, onUpdate }: ExpenseTableProps) 
                       type="date"
                       value={editingExpense?.date || ''}
                       onChange={(e) => setEditingExpense(prev => prev ? {...prev, date: e.target.value} : null)}
-                      className="glass-input w-full px-2 py-1 text-sm rounded"
+                      className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                     />
                   </td>
                   <td className="py-2 px-2">
                     <select
                       value={editingExpense?.category || ''}
                       onChange={(e) => setEditingExpense(prev => prev ? {...prev, category: e.target.value} : null)}
-                      className="glass-input w-full px-2 py-1 text-sm rounded"
+                      className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                     >
                       {categories.map(cat => (
                         <option key={cat} value={cat}>{cat}</option>
@@ -465,7 +479,7 @@ export default function ExpenseTable({ expenses, onUpdate }: ExpenseTableProps) 
                     <select
                       value={editingExpense?.store || ''}
                       onChange={(e) => setEditingExpense(prev => prev ? {...prev, store: e.target.value} : null)}
-                      className="glass-input w-full px-2 py-1 text-sm rounded"
+                      className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                     >
                       {stores.map(store => (
                         <option key={store} value={store}>{store}</option>
@@ -478,8 +492,12 @@ export default function ExpenseTable({ expenses, onUpdate }: ExpenseTableProps) 
                       ref={desktopItemInputRef}
                       type="text"
                       defaultValue={editingExpense?.item || ''}
-                      className="glass-input w-full px-2 py-1 text-sm rounded"
+                      className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                       placeholder="품목을 입력하세요"
+                      inputMode="text"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      spellCheck="false"
                     />
                   </td>
                   <td className="py-2 px-2">
@@ -488,8 +506,11 @@ export default function ExpenseTable({ expenses, onUpdate }: ExpenseTableProps) 
                       ref={desktopUnitPriceInputRef}
                       type="number"
                       defaultValue={editingExpense?.unitPrice || 0}
-                      className="glass-input w-full px-2 py-1 text-sm rounded"
+                      className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                       placeholder="단가"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      autoComplete="off"
                     />
                   </td>
                   <td className="py-2 px-2">
@@ -498,9 +519,12 @@ export default function ExpenseTable({ expenses, onUpdate }: ExpenseTableProps) 
                       ref={desktopQuantityInputRef}
                       type="number"
                       defaultValue={editingExpense?.quantity || 1}
-                      className="glass-input w-full px-2 py-1 text-sm rounded"
+                      className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                       placeholder="수량"
                       min="1"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      autoComplete="off"
                     />
                   </td>
                   <td className="py-2 px-2">
@@ -512,7 +536,7 @@ export default function ExpenseTable({ expenses, onUpdate }: ExpenseTableProps) 
                     <select
                       value={editingExpense?.payment || ''}
                       onChange={(e) => setEditingExpense(prev => prev ? {...prev, payment: e.target.value} : null)}
-                      className="glass-input w-full px-2 py-1 text-sm rounded"
+                      className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                     >
                       {paymentMethods.map(method => (
                         <option key={method} value={method}>{method}</option>
@@ -525,22 +549,26 @@ export default function ExpenseTable({ expenses, onUpdate }: ExpenseTableProps) 
                       ref={desktopMemoInputRef}
                       type="text"
                       defaultValue={editingExpense?.memo || ''}
-                      className="glass-input w-full px-2 py-1 text-sm rounded"
+                      className="w-full px-3 py-2 text-sm rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200"
                       placeholder="메모를 입력하세요"
+                      inputMode="text"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      spellCheck="false"
                     />
                   </td>
                   <td className="py-2 px-2">
                     <div className="flex gap-1">
                       <button
                         onClick={saveEdit}
-                        className="p-1 text-green-600 hover:bg-green-100 rounded"
+                        className="p-1 text-green-700 hover:bg-green-100 rounded shadow-sm bg-white/80"
                         title="저장"
                       >
                         <Check className="w-4 h-4" />
                       </button>
                       <button
                         onClick={cancelEdit}
-                        className="p-1 text-gray-600 hover:bg-gray-100 rounded"
+                        className="p-1 text-gray-700 hover:bg-gray-100 rounded shadow-sm bg-white/80"
                         title="취소"
                       >
                         <X className="w-4 h-4" />
@@ -569,7 +597,7 @@ export default function ExpenseTable({ expenses, onUpdate }: ExpenseTableProps) 
                       {expense.payment}
                     </span>
                   </td>
-                  <td className="py-2 px-2 text-sm text-gray-500">{expense.memo || '-'}</td>
+                  <td className="py-2 px-2 text-sm text-gray-700">{expense.memo || '-'}</td>
                   <td className="py-2 px-2">
                     <div className="flex gap-1">
                       <button
