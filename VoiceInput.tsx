@@ -34,7 +34,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
         stream.getTracks().forEach(track => track.stop());
       } catch (micError) {
         console.error('Microphone permission error:', micError);
-        alert(`마이크 권한이 필요합니다.\n\n오류: ${micError.message}\n\n브라우저 설정에서 마이크 접근을 허용해주세요.`);
+        alert(`마이크 권한이 필요합니다.\n\n오류: ${micError instanceof Error ? micError.message : ''} \n\n브라우저 설정에서 마이크 접근을 허용해주세요.`);
         return;
       }
 
@@ -43,7 +43,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
       await processAudio();
     } catch (error) {
       console.error('Error starting speech recognition:', error);
-      alert(`음성 인식을 시작할 수 없습니다.\n\n오류: ${error.message}\n\n브라우저가 음성 인식을 지원하지 않을 수 있습니다.`);
+      alert(`음성 인식을 시작할 수 없습니다.\n\n오류: ${error instanceof Error ? error.message : ''} \n\n브라우저가 음성 인식을 지원하지 않을 수 있습니다.`);
       setIsRecording(false);
     }
   };
