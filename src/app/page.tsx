@@ -119,6 +119,7 @@ export default function Home() {
               <div className="flex flex-wrap gap-2 justify-center mb-8">
                 <button
                   onClick={() => handleVoiceResult([{
+                    id: `quick-coffee-${Date.now()}`,
                     date: new Date().toISOString().split('T')[0],
                     item: '커피',
                     category: '식비',
@@ -136,6 +137,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => handleVoiceResult([{
+                    id: `quick-lunch-${Date.now()}`,
                     date: new Date().toISOString().split('T')[0],
                     item: '점심',
                     category: '식비',
@@ -153,6 +155,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => handleVoiceResult([{
+                    id: `quick-transport-${Date.now()}`,
                     date: new Date().toISOString().split('T')[0],
                     item: '교통비',
                     category: '교통',

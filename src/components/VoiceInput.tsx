@@ -377,7 +377,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
         }
 
         expenses.push({
-          id: (id++).toString(),
+          id: `voice-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
           date: new Date().toISOString().split('T')[0],
           store,
           category,
@@ -387,7 +387,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
           amount: price,
           payment,
           memo: '',
-          source: 'voice'
+          source: 'voice' as const
         });
 
         console.log('추출된 항목:', { item, price, category, payment });
