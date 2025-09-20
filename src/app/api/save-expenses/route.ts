@@ -31,6 +31,7 @@ export async function POST(request: NextRequest) {
 
     // 데이터 타입 변환
     const expenseData: ExpenseData[] = expenses.map((expense: Record<string, unknown>) => ({
+      id: (expense.id as string) || `api-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
       date: (expense.date as string) || new Date().toISOString().split('T')[0],
       store: (expense.store as string) || '기타',
       category: (expense.category as string) || '기타',

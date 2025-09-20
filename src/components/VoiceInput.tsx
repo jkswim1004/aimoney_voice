@@ -279,7 +279,6 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
       /([가-힣a-zA-Z0-9\s]+)\s*(\d{1,3}(?:[,\s]\d{3})*|\d+)\s*원(?:\s*[,，]\s*([가-힣a-zA-Z0-9\s]+)\s*(\d{1,3}(?:[,\s]\d{3})*|\d+)\s*원)*/g,
     ];
 
-    let id = Date.now();
     const foundItems = new Set<string>();
 
     for (const pattern of patterns) {
@@ -397,7 +396,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
     // 품목이 없으면 전체 텍스트를 메모로 저장
     if (expenses.length === 0) {
       expenses.push({
-        id: Date.now().toString(),
+        id: `voice-fallback-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
         date: new Date().toISOString().split('T')[0],
         store,
         category: '기타',
@@ -407,7 +406,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
         amount: 0,
         payment: '카드',
         memo: normalizedText,
-        source: 'voice'
+        source: 'voice' as const
       });
     }
 

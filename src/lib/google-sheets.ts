@@ -67,6 +67,7 @@ export const SHEET_HEADERS = [
 
 // 가계부 데이터 타입
 export interface ExpenseData {
+  id: string;
   date: string;
   store: string;
   category: string;
