@@ -93,34 +93,83 @@ export default function Home() {
           </p>
         </header>
 
-        {/* 음성 입력 버튼 */}
-        <div className="flex justify-center mb-8 md:mb-10 px-4">
-          <button
-            onClick={() => setShowVoiceInput(true)}
-            className="glass-button shine-effect px-8 md:px-12 py-4 md:py-6 rounded-2xl flex items-center justify-center gap-4 text-lg md:text-xl font-medium hover:scale-105 transform transition-all duration-300"
-            disabled={isProcessing}
-          >
-            <Mic className="w-6 h-6 md:w-8 md:h-8" />
-            음성으로 가계부 입력하기
-          </button>
-        </div>
-
         {/* 메인 컨텐츠 */}
         {expenses.length === 0 ? (
           /* 빈 상태 - 중앙 집중 레이아웃 */
           <div className="max-w-4xl mx-auto px-4">
             <div className="glass-card rounded-2xl p-8 lg:p-12 text-center">
-              <div className="w-24 h-24 mx-auto bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mb-6">
-                <Edit3 className="w-12 h-12 text-white" />
-              </div>
+              {/* 음성 녹음 버튼 */}
+              <button
+                onClick={() => setShowVoiceInput(true)}
+                className="w-24 h-24 mx-auto bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mb-6 hover:scale-110 transform transition-all duration-300 shadow-lg hover:shadow-xl group"
+                disabled={isProcessing}
+              >
+                <Mic className="w-12 h-12 text-white group-hover:animate-pulse" />
+              </button>
               
               <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-4">
                 가계부를 시작해보세요! 🎉
               </h2>
               
-              <p className="text-gray-600 mb-8 text-lg">
+              <p className="text-gray-600 mb-6 text-lg">
                 음성으로 간편하게 지출 내역을 기록하고 자동으로 구글시트에 저장됩니다
               </p>
+
+              {/* 빠른 입력 버튼들 */}
+              <div className="flex flex-wrap gap-2 justify-center mb-8">
+                <button
+                  onClick={() => handleVoiceResult([{
+                    date: new Date().toISOString().split('T')[0],
+                    item: '커피',
+                    category: '식비',
+                    store: '카페',
+                    unitPrice: 4500,
+                    quantity: 1,
+                    amount: 4500,
+                    payment: '카드',
+                    memo: '',
+                    source: 'voice' as const
+                  }])}
+                  className="px-4 py-2 bg-white/60 hover:bg-white/80 backdrop-blur-sm rounded-full text-sm text-gray-700 transition-all duration-200 border border-white/50 shadow-sm hover:shadow-md"
+                >
+                  ☕ 커피 4,500원
+                </button>
+                <button
+                  onClick={() => handleVoiceResult([{
+                    date: new Date().toISOString().split('T')[0],
+                    item: '점심',
+                    category: '식비',
+                    store: '식당',
+                    unitPrice: 8000,
+                    quantity: 1,
+                    amount: 8000,
+                    payment: '카드',
+                    memo: '',
+                    source: 'voice' as const
+                  }])}
+                  className="px-4 py-2 bg-white/60 hover:bg-white/80 backdrop-blur-sm rounded-full text-sm text-gray-700 transition-all duration-200 border border-white/50 shadow-sm hover:shadow-md"
+                >
+                  🍽️ 점심 8,000원
+                </button>
+                <button
+                  onClick={() => handleVoiceResult([{
+                    date: new Date().toISOString().split('T')[0],
+                    item: '교통비',
+                    category: '교통',
+                    store: '지하철',
+                    unitPrice: 1500,
+                    quantity: 1,
+                    amount: 1500,
+                    payment: '카드',
+                    memo: '',
+                    source: 'voice' as const
+                  }])}
+                  className="px-4 py-2 bg-white/60 hover:bg-white/80 backdrop-blur-sm rounded-full text-sm text-gray-700 transition-all duration-200 border border-white/50 shadow-sm hover:shadow-md"
+                >
+                  🚇 교통비 1,500원
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 mb-8">💡 음성 인식이 안 될 때는 위 버튼으로 빠르게 입력하세요</p>
 
               {/* 사용법 카드 */}
               <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8">

@@ -74,11 +74,18 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
       const recognition = new SpeechRecognition();
       recognitionRef.current = recognition;
       
-      // 음성 인식 설정 최적화 (안정성 우선)
+      // 음성 인식 설정 최적화 (모바일 안정성 우선)
       recognition.lang = 'ko-KR';
       recognition.continuous = false; // 단일 음성 인식으로 변경 (더 안정적)
-      recognition.interimResults = true; // 중간 결과도 표시
       recognition.maxAlternatives = 1; // 대안 수 줄임 (안정성 향상)
+      
+      // 모바일 디바이스 감지 및 최적화
+      const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      if (isMobile) {
+        recognition.interimResults = false; // 모바일에서는 중간 결과 비활성화 (안정성 향상)
+      } else {
+        recognition.interimResults = true; // 데스크톱에서는 중간 결과 표시
+      }
       
       // 더 긴 타임아웃 설정 (30초)
       const timeoutId = setTimeout(() => {

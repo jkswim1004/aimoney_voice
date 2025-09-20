@@ -18,6 +18,12 @@ export const metadata: Metadata = {
   keywords: "가계부, 음성인식, 구글시트, AI, 자동화, 가계부앱, 음성가계부",
   authors: [{ name: "AIMoney Team" }],
   robots: "index, follow",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "AI가계부",
+  },
 };
 
 export const viewport = {
@@ -25,6 +31,7 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  themeColor: "#3b82f6",
 };
 
 export default function RootLayout({
