@@ -396,7 +396,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
     // 품목이 없으면 전체 텍스트를 메모로 저장
     if (expenses.length === 0) {
       expenses.push({
-        id: Date.now().toString(),
+        id: `voice-fallback-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
         date: new Date().toISOString().split('T')[0],
         store,
         category: '기타',
@@ -406,7 +406,7 @@ export default function VoiceInput({ onResult, onClose }: VoiceInputProps) {
         amount: 0,
         payment: '카드',
         memo: normalizedText,
-        source: 'voice'
+        source: 'voice' as const
       });
     }
 
